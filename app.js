@@ -5,14 +5,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressHbs = require('express-handlebars');
 var indexRouter = require('./routes/index');
-
+var mongoose = require('mongoose');
 
 
 var app = express();
 
+mongoose.connect('mongodb://Caulin:mongo123@ds137488.mlab.com:37488/mongo', {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname:'.hbs'}));
+app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
@@ -25,12 +29,12 @@ app.use('/', indexRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
